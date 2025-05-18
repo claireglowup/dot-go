@@ -1,0 +1,62 @@
+package service
+
+import (
+	"context"
+	"dot-go/src/helper/validator"
+	"dot-go/src/model"
+	"errors"
+	"log"
+	"os"
+	"time"
+
+	"github.com/golang-jwt/jwt/v5"
+	"golang.org/x/crypto/bcrypt"
+)
+
+func (s *service) RegisterUser(ctx context.Context, user validator.UserRegister) error {
+
+	passwordHash, err := bcrypt.GenerateFromPassword([]byte(user.Password), 5)
+	if err != nil {
+		return err
+	}
+	payload := &model.User{
+		Name:     user.Name,
+		Email:    user.Email,
+		Password: string(passwordHash),
+	}
+
+	err = s.repo.RegisterUser(ctx, payload)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (u *service) Login(ctx context.Context, user validator.UserLogin) (string, error) {
+	log.Println(user.Email)
+
+	data, err := u.repo.GetUserByEmail(ctx, user.Email)
+	if err != nil {
+		return "", errors.New("Email is not found")
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(data.Password), []byte(user.Password))
+	if err != nil {
+		return "", errors.New("Wrong password")
+
+	}
+
+	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.RegisteredClaims{
+		Issuer:    data.Email,
+		ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 24)),
+	})
+
+	token, err := claims.SignedString([]byte(os.Getenv("SECRET_KEY")))
+	if err != nil {
+		return "", err
+	}
+
+	return token, nil
+
+}
