@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"dot-go/src/helper/validator"
+	"dot-go/src/model"
 	"dot-go/src/repository"
 	"os"
 	"strings"
@@ -13,6 +14,7 @@ import (
 type Service interface {
 	Login(ctx context.Context, user validator.UserLogin) (string, error)
 	RegisterUser(ctx context.Context, user validator.UserRegister) error
+	GetMusic(ctx context.Context, authHeader string) ([]*model.Music, error)
 }
 
 type service struct {

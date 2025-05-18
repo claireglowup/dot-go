@@ -5,7 +5,6 @@ import (
 	"dot-go/src/helper/validator"
 	"dot-go/src/model"
 	"errors"
-	"log"
 	"os"
 	"time"
 
@@ -34,7 +33,6 @@ func (s *service) RegisterUser(ctx context.Context, user validator.UserRegister)
 }
 
 func (u *service) Login(ctx context.Context, user validator.UserLogin) (string, error) {
-	log.Println(user.Email)
 
 	data, err := u.repo.GetUserByEmail(ctx, user.Email)
 	if err != nil {

@@ -1,6 +1,7 @@
 package delivery
 
 import (
+	"context"
 	"dot-go/src/service"
 
 	echojwt "github.com/labstack/echo-jwt/v4"
@@ -21,30 +22,24 @@ func NewDelivery(service service.Service) Delivery {
 	}
 }
 
-func (d *delivery) Auth(e *echo.Group) {
+func (d *delivery) getAuthAndCtx(c echo.Context) (context.Context, string) {
+	return c.Request().Context(), c.Request().Header.Get("Authorization")
+
+}
+
+func (d *delivery) auth(e *echo.Group) {
 
 	e.POST("/register", d.registerHandler)
 	e.POST("/login", d.login)
 }
 
-// func (d *delivery) User(e *echo.Group, configJWT echojwt.Config) {
-// 	e.Use(echojwt.WithConfig(configJWT))
-// 	e.GET("/cart", d.getCartByUserId)
-// 	e.POST("/cart", d.AddProductToCartUser)
-// 	e.DELETE("/cart", d.DeleteProductOnCartById)
-// 	e.GET("/payment", d.MidtransPayment)
-
-// }
-
-// func (d *delivery) Product(e *echo.Group, configJWT echojwt.Config) {
-// 	e.Use(echojwt.WithConfig(configJWT))
-// 	e.GET("", d.getProducts)
-// 	e.GET("/:category", d.getProductsByCategory)
-// }
+func (d *delivery) music(e *echo.Group, configJwt echojwt.Config) {
+	e.Use(echojwt.WithConfig(configJwt))
+	e.GET("/musics", d.GetMusics)
+}
 
 func (d *delivery) Routes(e *echo.Echo, configJWT echojwt.Config) {
-	d.Auth(e.Group("auth"))
-	// d.Product(e.Group("products"), configJWT)
-	// d.User(e.Group("user"), configJWT)
+	d.auth(e.Group("auth"))
+	d.music(e.Group("music"), configJWT)
 
 }
