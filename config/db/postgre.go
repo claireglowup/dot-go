@@ -24,7 +24,7 @@ func InitPostgre(dsn string) *gorm.DB {
 
 	log.Println("success to migrate schema")
 
-	err = schema.SeedMusic(context.Background(), db) //seeder music
+	err = SeedMusic(context.Background(), db) //seeder music
 	if err != nil {
 		log.Fatalf("failed to seed :%v", err)
 	}
@@ -32,12 +32,33 @@ func InitPostgre(dsn string) *gorm.DB {
 	return db
 }
 
-func CleanSeeders(db *gorm.DB) {
+func SeedMusic(ctx context.Context, db *gorm.DB) error {
 
-	if err := db.Migrator().DropTable(&schema.Music{}); err != nil {
-		log.Fatalf("seeders not deleted :%v", err)
+	var count int64
+	db.Model(&schema.Music{}).Count(&count)
+	if count > 0 {
+		log.Println("Music already seeded")
+		return nil
 	}
 
-	log.Println("seeders is deleted")
+	musics := []schema.Music{
+		{Title: "Love Story", Artist: "Taylor Swift", Duration: 230, Writer: "Taylor Swift", Year: 2008},
+		{Title: "You Belong with Me", Artist: "Taylor Swift", Duration: 215, Writer: "Taylor Swift", Year: 2008},
+		{Title: "Blank Space", Artist: "Taylor Swift", Duration: 231, Writer: "Taylor Swift", Year: 2014},
+		{Title: "Shake It Off", Artist: "Taylor Swift", Duration: 242, Writer: "Taylor Swift", Year: 2014},
+		{Title: "Wildest Dreams", Artist: "Taylor Swift", Duration: 220, Writer: "Taylor Swift", Year: 2014},
+		{Title: "Look What You Made Me Do", Artist: "Taylor Swift", Duration: 211, Writer: "Taylor Swift", Year: 2017},
+		{Title: "Lover", Artist: "Taylor Swift", Duration: 221, Writer: "Taylor Swift", Year: 2019},
+		{Title: "Cardigan", Artist: "Taylor Swift", Duration: 239, Writer: "Taylor Swift", Year: 2020},
+		{Title: "Willow", Artist: "Taylor Swift", Duration: 214, Writer: "Taylor Swift", Year: 2020},
+		{Title: "Anti-Hero", Artist: "Taylor Swift", Duration: 200, Writer: "Taylor Swift", Year: 2022},
+	}
 
+	result := db.WithContext(ctx).Create(&musics)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	log.Printf("row affected :%d", result.RowsAffected)
+	return nil
 }

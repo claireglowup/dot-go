@@ -21,5 +21,4 @@ func main() {
 
 	<-quit
 
-	server.CleanSeeders() //clean seeders from music dummy
 }

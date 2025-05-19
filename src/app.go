@@ -21,7 +21,6 @@ import (
 
 type Server interface {
 	Run()
-	CleanSeeders()
 }
 
 type server struct {
@@ -76,8 +75,4 @@ func (s *server) Run() {
 		log.Fatal(err.Error())
 	}
 
-}
-
-func (s *server) CleanSeeders() {
-	db.CleanSeeders(s.db)
 }
