@@ -2,7 +2,6 @@ package delivery
 
 import (
 	"dot-go/src/helper"
-	"log"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -10,7 +9,7 @@ import (
 
 func (d *delivery) GetMusics(c echo.Context) error {
 	ctx, auth := d.getAuthAndCtx(c)
-	log.Println("wtf")
+	// log.Println("wtf")
 
 	result, err := d.service.GetMusic(ctx, auth)
 	if err != nil {
