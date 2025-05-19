@@ -6,12 +6,7 @@ import (
 	"fmt"
 )
 
-func (s *service) GetMusic(ctx context.Context, authHeader string) (*[]model.Music, error) {
-
-	_, err := s.getJWTClaims(authHeader)
-	if err != nil {
-		return nil, err
-	}
+func (s *service) GetMusic(ctx context.Context) (*[]model.Music, error) {
 
 	result, err := s.repo.GetMusics(ctx)
 	if err != nil {

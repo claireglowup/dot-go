@@ -8,9 +8,8 @@ import (
 )
 
 func (d *delivery) GetMusics(c echo.Context) error {
-	ctx, auth := d.getAuthAndCtx(c)
 
-	result, err := d.service.GetMusic(ctx, auth)
+	result, err := d.service.GetMusic(c.Request().Context())
 	if err != nil {
 		return helper.WriteResponse(c, http.StatusInternalServerError, err.Error(), nil)
 	}

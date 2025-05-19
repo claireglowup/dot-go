@@ -4,10 +4,12 @@ import (
 	"dot-go/config/db"
 	"dot-go/config/util"
 	"dot-go/src/delivery"
+	"dot-go/src/helper"
 	"dot-go/src/helper/validator"
 	"dot-go/src/repository"
 	"dot-go/src/service"
 	"log"
+	"net/http"
 
 	validatorEngine "github.com/go-playground/validator"
 	"github.com/golang-jwt/jwt/v5"
@@ -52,10 +54,6 @@ func InitServer() Server {
 
 }
 
-func (s *server) CleanSeeders() {
-	db.CleanSeeders(s.db)
-}
-
 func (s *server) Run() {
 
 	repo := repository.Newrepository(s.db)
@@ -67,6 +65,9 @@ func (s *server) Run() {
 			return new(jwt.RegisteredClaims)
 		},
 		SigningKey: []byte(s.config.SecretKey),
+		ErrorHandler: func(c echo.Context, err error) error {
+			return helper.WriteResponse(c, http.StatusUnauthorized, "UNAUTHORIZED", nil)
+		},
 	}
 
 	delivery.Routes(s.httpServer, configJWT)
@@ -75,4 +76,8 @@ func (s *server) Run() {
 		log.Fatal(err.Error())
 	}
 
+}
+
+func (s *server) CleanSeeders() {
+	db.CleanSeeders(s.db)
 }

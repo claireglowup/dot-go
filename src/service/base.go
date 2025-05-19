@@ -14,7 +14,7 @@ import (
 type Service interface {
 	Login(ctx context.Context, user validator.UserLogin) (string, error)
 	RegisterUser(ctx context.Context, user validator.UserRegister) error
-	GetMusic(ctx context.Context, authHeader string) (*[]model.Music, error)
+	GetMusic(ctx context.Context) (*[]model.Music, error)
 }
 
 type service struct {
