@@ -9,7 +9,6 @@ import (
 
 func (d *delivery) GetMusics(c echo.Context) error {
 	ctx, auth := d.getAuthAndCtx(c)
-	// log.Println("wtf")
 
 	result, err := d.service.GetMusic(ctx, auth)
 	if err != nil {

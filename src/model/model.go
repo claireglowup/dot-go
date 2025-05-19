@@ -7,9 +7,9 @@ type User struct {
 }
 
 type Music struct {
-	Title    string
-	Artist   string
-	Duration int
-	Writer   string
-	Year     string
+	Title    string `json:"title"`
+	Artist   string `json:"artist"`
+	Duration string `json:"duration"`
+	Writer   string `json:"writer"`
+	Year     int    `json:"year"`
 }
