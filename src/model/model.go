@@ -7,6 +7,7 @@ type User struct {
 }
 
 type Music struct {
+	ID       uint   `json:"id"`
 	Title    string `json:"title"`
 	Artist   string `json:"artist"`
 	Duration string `json:"duration"`
