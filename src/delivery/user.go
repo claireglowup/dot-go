@@ -8,7 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (d *delivery) AddUserMusicFavorite(c echo.Context) error {
+func (d *delivery) addUserMusicFavorite(c echo.Context) error {
 
 	var favoriteMusic validator.FavoriteMusic
 	ctx, auth := d.getAuthAndCtx(c)
@@ -24,4 +24,16 @@ func (d *delivery) AddUserMusicFavorite(c echo.Context) error {
 
 	return helper.WriteResponse(c, http.StatusOK, "Success", nil)
 
+}
+
+func (d *delivery) getFavoriteMusicsByUser(c echo.Context) error {
+
+	ctx, auth := d.getAuthAndCtx(c)
+
+	payload, err := d.service.GetFavoriteMusicsByUser(ctx, auth)
+	if err != nil {
+		return helper.WriteResponse(c, http.StatusInternalServerError, err.Error(), nil)
+	}
+
+	return helper.WriteResponse(c, http.StatusOK, "Success", payload)
 }

@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (d *delivery) GetMusics(c echo.Context) error {
+func (d *delivery) getMusics(c echo.Context) error {
 
 	result, err := d.service.GetMusic(c.Request().Context())
 	if err != nil {

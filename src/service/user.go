@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"dot-go/src/model"
 	"strconv"
 )
 
@@ -23,4 +24,23 @@ func (s *service) AddMusicFavoriteUser(ctx context.Context, authHeader string, i
 	}
 
 	return nil
+}
+
+func (s *service) GetFavoriteMusicsByUser(ctx context.Context, authHeader string) (*[]model.Music, error) {
+	claims, err := s.getJWTClaims(authHeader)
+	if err != nil {
+		return nil, err
+	}
+
+	id, err := strconv.Atoi(claims.Issuer)
+	if err != nil {
+		return nil, err
+	}
+
+	payload, err := s.repo.GetFavoriteMusicsByUser(ctx, uint(id))
+	if err != nil {
+		return nil, err
+	}
+
+	return payload, nil
 }

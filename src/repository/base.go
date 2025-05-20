@@ -13,6 +13,7 @@ type Repository interface {
 	GetUserByEmail(ctx context.Context, email string) (*model.User, error)
 	GetMusics(ctx context.Context) ([]schema.Music, error)
 	AddMusicFavoriteUser(ctx context.Context, idUser uint, idMusic uint) error
+	GetFavoriteMusicsByUser(ctx context.Context, idUser uint) (*[]model.Music, error)
 }
 
 type repository struct {

@@ -35,12 +35,13 @@ func (d *delivery) auth(e *echo.Group) {
 
 func (d *delivery) music(e *echo.Group, configJwt echojwt.Config) {
 	e.Use(echojwt.WithConfig(configJwt))
-	e.GET("/musics", d.GetMusics)
+	e.GET("/musics", d.getMusics)
 }
 
 func (d *delivery) user(e *echo.Group, configJwt echojwt.Config) {
 	e.Use(echojwt.WithConfig(configJwt))
-	e.POST("/favorite", d.AddUserMusicFavorite)
+	e.POST("/favorite", d.addUserMusicFavorite)
+	e.GET("/favorite", d.getFavoriteMusicsByUser)
 }
 
 func (d *delivery) Routes(e *echo.Echo, configJWT echojwt.Config) {
