@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
+	"dot-go/config/schema"
 	"dot-go/src/helper/validator"
-	"dot-go/src/model"
 	"errors"
 	"os"
 	"time"
@@ -18,7 +18,7 @@ func (s *service) RegisterUser(ctx context.Context, user validator.UserRegister)
 	if err != nil {
 		return err
 	}
-	payload := &model.User{
+	payload := &schema.User{
 		Name:     user.Name,
 		Email:    user.Email,
 		Password: string(passwordHash),
@@ -46,7 +46,7 @@ func (u *service) Login(ctx context.Context, user validator.UserLogin) (string, 
 	}
 
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.RegisteredClaims{
-		Issuer:    data.Email,
+		Issuer:    data.ID,
 		ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 24)),
 	})
 

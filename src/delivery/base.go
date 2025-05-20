@@ -38,8 +38,14 @@ func (d *delivery) music(e *echo.Group, configJwt echojwt.Config) {
 	e.GET("/musics", d.GetMusics)
 }
 
+func (d *delivery) user(e *echo.Group, configJwt echojwt.Config) {
+	e.Use(echojwt.WithConfig(configJwt))
+	e.POST("/favorite", d.AddUserMusicFavorite)
+}
+
 func (d *delivery) Routes(e *echo.Echo, configJWT echojwt.Config) {
 	d.auth(e.Group("auth"))
 	d.music(e.Group("music"), configJWT)
+	d.user(e.Group("user"), configJWT)
 
 }

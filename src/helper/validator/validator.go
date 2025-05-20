@@ -29,3 +29,7 @@ type UserLogin struct {
 	Email    string `json:"email" validate:"email,min=6"`
 	Password string `json:"password" validate:"required"`
 }
+
+type FavoriteMusic struct {
+	ID uint `json:"id_music" validate:"require"`
+}

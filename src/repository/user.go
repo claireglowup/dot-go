@@ -2,10 +2,14 @@ package repository
 
 import (
 	"context"
+	"dot-go/config/schema"
 	"dot-go/src/model"
+	"errors"
+
+	"gorm.io/gorm"
 )
 
-func (r *repository) RegisterUser(ctx context.Context, user *model.User) error {
+func (r *repository) RegisterUser(ctx context.Context, user *schema.User) error {
 
 	result := r.db.WithContext(ctx).Create(user)
 	if result.Error != nil {
@@ -25,4 +29,36 @@ func (r *repository) GetUserByEmail(ctx context.Context, email string) (*model.U
 	}
 
 	return &user, nil
+}
+
+func (r *repository) AddMusicFavoriteUser(ctx context.Context, idUser uint, idMusic uint) error {
+	return r.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		var user schema.User
+		var music schema.Music
+
+		if err := tx.First(&user, idUser).Error; err != nil {
+			return err
+		}
+
+		var existing []schema.Music
+		if err := tx.Model(&user).
+			Association("Favorites").
+			Find(&existing, "id = ?", idMusic); err != nil {
+			return err
+		}
+
+		if len(existing) > 0 {
+			return errors.New("music already favorited")
+		}
+
+		if err := tx.First(&music, idMusic).Error; err != nil {
+			return err
+		}
+
+		if err := tx.Model(&user).Association("Favorites").Append(&music); err != nil {
+			return err
+		}
+
+		return nil
+	})
 }

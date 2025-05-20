@@ -9,9 +9,10 @@ import (
 )
 
 type Repository interface {
-	RegisterUser(ctx context.Context, user *model.User) error
+	RegisterUser(ctx context.Context, user *schema.User) error
 	GetUserByEmail(ctx context.Context, email string) (*model.User, error)
 	GetMusics(ctx context.Context) ([]schema.Music, error)
+	AddMusicFavoriteUser(ctx context.Context, idUser uint, idMusic uint) error
 }
 
 type repository struct {
