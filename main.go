@@ -13,7 +13,6 @@ func main() {
 
 	go func() {
 		server.Run()
-
 	}()
 
 	quit := make(chan os.Signal, 1)

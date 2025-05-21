@@ -17,7 +17,12 @@ func (d *delivery) addUserMusicFavorite(c echo.Context) error {
 		return helper.WriteResponse(c, http.StatusInternalServerError, err.Error(), nil)
 	}
 
-	err := d.service.AddMusicFavoriteUser(ctx, auth, favoriteMusic.ID)
+	err := c.Validate(favoriteMusic)
+	if err != nil {
+		return helper.WriteResponse(c, http.StatusBadRequest, err.Error(), nil)
+	}
+
+	err = d.service.AddMusicFavoriteUser(ctx, auth, favoriteMusic.ID)
 	if err != nil {
 		return helper.WriteResponse(c, http.StatusInternalServerError, err.Error(), nil)
 	}

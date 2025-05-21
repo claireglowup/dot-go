@@ -36,12 +36,12 @@ func (u *service) Login(ctx context.Context, user validator.UserLogin) (string, 
 
 	data, err := u.repo.GetUserByEmail(ctx, user.Email)
 	if err != nil {
-		return "", errors.New("Email is not found")
+		return "", errors.New("email is not found")
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(data.Password), []byte(user.Password))
 	if err != nil {
-		return "", errors.New("Wrong password")
+		return "", errors.New("wrong password")
 
 	}
 

@@ -42,5 +42,7 @@ func (s *service) GetFavoriteMusicsByUser(ctx context.Context, authHeader string
 		return nil, err
 	}
 
+	//task: mapping to make duration payload better (conver to menit and second)
+
 	return payload, nil
 }
