@@ -31,5 +31,5 @@ type UserLogin struct {
 }
 
 type FavoriteMusic struct {
-	ID uint `json:"id_music" validate:"require"`
+	ID uint `json:"id_music" validate:"required"`
 }

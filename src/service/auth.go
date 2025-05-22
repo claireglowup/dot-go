@@ -36,7 +36,7 @@ func (u *service) Login(ctx context.Context, user validator.UserLogin) (string, 
 
 	data, err := u.repo.GetUserByEmail(ctx, user.Email)
 	if err != nil {
-		return "", errors.New("email is not found")
+		return "", errors.New("email is not found, register please")
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(data.Password), []byte(user.Password))
