@@ -5,6 +5,7 @@ import (
 	"dot-go/config/schema"
 	"dot-go/src/model"
 	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -48,7 +49,7 @@ func (r *repository) AddMusicFavoriteUser(ctx context.Context, idUser uint, idMu
 		}
 
 		if len(existing) > 0 {
-			return errors.New("music already favorited")
+			return gorm.ErrRecordNotFound
 		}
 
 		if err := tx.First(&music, idMusic).Error; err != nil {
@@ -75,4 +76,36 @@ func (r *repository) GetFavoriteMusicsByUser(ctx context.Context, idUser uint) (
 	}
 
 	return &favorites, nil
+}
+
+func (r *repository) RemoveMusicFavoriteUser(ctx context.Context, idUser uint, idMusic uint) error {
+	return r.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		var user schema.User
+		var music schema.Music
+
+		if err := tx.First(&user, idUser).Error; err != nil {
+			return err
+		}
+
+		if err := tx.First(&music, idMusic).Error; err != nil {
+			return err
+		}
+
+		var existing []schema.Music
+		if err := tx.Model(&user).
+			Association("Favorites").
+			Find(&existing, "id = ?", idMusic); err != nil {
+			return err
+		}
+
+		if len(existing) == 0 {
+			return errors.New(fmt.Sprintf("music with id: %d is not in your favorite", idMusic))
+		}
+
+		if err := tx.Model(&user).Association("Favorites").Delete(&music); err != nil {
+			return err
+		}
+
+		return nil
+	})
 }

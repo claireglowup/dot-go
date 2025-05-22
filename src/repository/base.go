@@ -14,6 +14,7 @@ type Repository interface {
 	GetMusics(ctx context.Context) ([]schema.Music, error)
 	AddMusicFavoriteUser(ctx context.Context, idUser uint, idMusic uint) error
 	GetFavoriteMusicsByUser(ctx context.Context, idUser uint) (*[]model.Music, error)
+	RemoveMusicFavoriteUser(ctx context.Context, idUser uint, idMusic uint) error
 }
 
 type repository struct {

@@ -17,6 +17,7 @@ type Service interface {
 	GetMusic(ctx context.Context) (*[]model.Music, error)
 	AddMusicFavoriteUser(ctx context.Context, authHeader string, idMusic uint) error
 	GetFavoriteMusicsByUser(ctx context.Context, authHeader string) (*[]model.Music, error)
+	UnfavoriteMusicUser(ctx context.Context, authHeader string, idMusic uint) error
 }
 
 type service struct {

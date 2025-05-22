@@ -1,0 +1,31 @@
+# @format
+
+version: "3"
+services:
+  golang:
+    build:
+      context: .
+    image: rikyfahrian1/dot-backend:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    volumes:
+      - my_data:/app/data
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: dot
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  my_data:
+  pg_data:

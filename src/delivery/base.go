@@ -42,6 +42,7 @@ func (d *delivery) user(e *echo.Group, configJwt echojwt.Config) {
 	e.Use(echojwt.WithConfig(configJwt))
 	e.POST("/favorite", d.addUserMusicFavorite)
 	e.GET("/favorite", d.getFavoriteMusicsByUser)
+	e.DELETE("/favorite", d.UnfavoriteMusicUser)
 }
 
 func (d *delivery) Routes(e *echo.Echo, configJWT echojwt.Config) {
