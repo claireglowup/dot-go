@@ -2,7 +2,7 @@
 
 # **REST API MUSIC**
 
-Repository ini untuk test challenge **Backend Engineer Intern PT.DOT Indonesia**.
+Repository ini untuk test challenge **Backend Engineer Intern DOT Indonesia**.
 
 ---
 
@@ -13,7 +13,7 @@ Repository ini untuk test challenge **Backend Engineer Intern PT.DOT Indonesia**
 **ERD Schema**
 (user_music_favorite adalah tabel otomatis by gorm)
 
-![erd](https://i.pinimg.com/736x/ce/43/6d/ce436d1f3e7037285e16ff5c341cb7ba.jpg)
+![erd](dot.png)
 
 [Lihat Flow Chart](https://miro.com/app/board/uXjVIx8lumg=/?moveToWidget=3458764629378649791&cot=14)
 
@@ -61,10 +61,6 @@ Jika Makefile tersedia, jalankan:
 ```bash
 make start
 ```
-
-### **4. Tersedia Open Api Di swagger.json**
-
-link Api Spec https://app.swaggerhub.com/apis/rikyfahrian/online-store_rest_api/1
 
 ## **📜 Lisensi**
 
