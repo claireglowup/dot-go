@@ -1,2 +1,2 @@
-run:
-	go run main.go
+start:
+	docker-compose up --build

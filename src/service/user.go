@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"dot-go/src/model"
+	"fmt"
 	"strconv"
 )
 
@@ -42,9 +43,21 @@ func (s *service) GetFavoriteMusicsByUser(ctx context.Context, authHeader string
 		return nil, err
 	}
 
-	//task: mapping to make duration payload better (conver to menit and second)
+	payload2 := make([]model.Music, 0, len(*payload))
 
-	return payload, nil
+	for _, music := range *payload {
+		payload2 = append(payload2, model.Music{
+			ID:       music.ID,
+			Title:    music.Title,
+			Artist:   music.Artist,
+			Duration: fmt.Sprintf("%02d:%02d", music.Duration/60, music.Duration%60),
+			Writer:   music.Writer,
+			Year:     music.Year,
+		})
+
+	}
+
+	return &payload2, nil
 }
 
 func (s *service) UnfavoriteMusicUser(ctx context.Context, authHeader string, idMusic uint) error {

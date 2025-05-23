@@ -64,13 +64,13 @@ func (r *repository) AddMusicFavoriteUser(ctx context.Context, idUser uint, idMu
 	})
 }
 
-func (r *repository) GetFavoriteMusicsByUser(ctx context.Context, idUser uint) (*[]model.Music, error) {
+func (r *repository) GetFavoriteMusicsByUser(ctx context.Context, idUser uint) (*[]schema.Music, error) {
 	var user schema.User
 	if err := r.db.WithContext(ctx).First(&user, idUser).Error; err != nil {
 		return nil, err
 	}
 
-	var favorites []model.Music
+	var favorites []schema.Music
 	if err := r.db.WithContext(ctx).Model(&user).Association("Favorites").Find(&favorites); err != nil {
 		return nil, err
 	}
