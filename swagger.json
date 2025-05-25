@@ -1,0 +1,435 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Music REST API",
+    "version": "1.0",
+    "description": "OpenAPI specification for the Dot music project.",
+    "termsOfService": "https://github.com/claireglowup",
+    "contact": {
+      "name": "Mohamad Riki Fahrian",
+      "email": "rikyfhrian@gmail.com",
+      "url": "https://rikyfahrian.vercel.app"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local development server"
+    }
+  ],
+  "externalDocs": {
+    "description": "GitHub Repository - claireglowup",
+    "url": "https://github.com/claireglowup/dot"
+  },
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authentication endpoints"
+    },
+    {
+      "name": "User",
+      "description": "User-related endpoints"
+    },
+    {
+      "name": "Music",
+      "description": "Music-related endpoints"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User login",
+        "description": "Allows a registered user to log in. If you do not have an account, please register via the '/auth/register' endpoint first.",
+        "requestBody": {
+          "description": "User credentials to obtain a JWT token.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["email", "password"],
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "rikyfhrian@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "rahasia"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful. Returns a JWT token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Login successful. Token will expire after 24 hours."
+                    },
+                    "data": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Register a new user",
+        "description": "Registers a new user. After successful registration, the user can log in using the '/auth/login' endpoint.",
+        "requestBody": {
+          "description": "User information required for registration.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["name", "email", "password"],
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "riky"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "rikyfhrian@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "rahasia"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User successfully registered.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success Register"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or email already in use.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Email already in use or invalid input."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/music/musics": {
+      "get": {
+        "tags": ["Music"],
+        "summary": "Retrieve all music (authentication required)",
+        "description": "Fetches a list of all music records. This endpoint requires user authentication.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved music list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "Love story"
+                          },
+                          "artist": {
+                            "type": "string",
+                            "example": "Taylor Swift"
+                          },
+                          "duration": {
+                            "type": "string",
+                            "example": "03:41"
+                          },
+                          "writer": {
+                            "type": "string",
+                            "example": "Taylor Swift"
+                          },
+                          "year": {
+                            "type": "integer",
+                            "example": 2015
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/favorite": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get user's favorite music",
+        "description": "Retrieves all music favorited by the logged-in user. Requires authentication.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Favorites retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "Love story"
+                          },
+                          "artist": {
+                            "type": "string",
+                            "example": "Taylor Swift"
+                          },
+                          "duration": {
+                            "type": "string",
+                            "example": "03:41"
+                          },
+                          "writer": {
+                            "type": "string",
+                            "example": "Taylor Swift"
+                          },
+                          "year": {
+                            "type": "integer",
+                            "example": 2015
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["User"],
+        "summary": "Add music to favorites",
+        "description": "Adds a specific music entry to the user's favorites list. Requires authentication.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "ID of the music to add to favorites.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["id_music"],
+                "type": "object",
+                "properties": {
+                  "id_music": {
+                    "type": "integer",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Music added to favorites.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["User"],
+        "summary": "Remove music from favorites",
+        "description": "Removes a specific music entry from the user's favorites list. Requires authentication.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "ID of the favorite music entry to remove.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["id_music"],
+                "type": "object",
+                "properties": {
+                  "id_music": {
+                    "type": "integer",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Music removed from favorites.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

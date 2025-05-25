@@ -17,6 +17,8 @@ Repository ini untuk test challenge **Backend Engineer Intern DOT Indonesia**.
 
 [Lihat Flow Chart](https://miro.com/app/board/uXjVIx8lumg=/?moveToWidget=3458764629378649791&cot=14)
 
+[Lihat API Docs](https://app.swaggerhub.com/apis/CLAIREGLOWUP/music-api-dot/1.0.0#/User/delete_user_favorite)
+
 ## **Fitur**
 
 - Authentication menggunakan JWT.
