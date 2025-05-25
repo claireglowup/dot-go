@@ -389,24 +389,18 @@
             "BearerAuth": []
           }
         ],
-        "requestBody": {
-          "description": "ID of the favorite music entry to remove.",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "required": ["id_music"],
-                "type": "object",
-                "properties": {
-                  "id_music": {
-                    "type": "integer",
-                    "example": 1
-                  }
-                }
-              }
+        "parameters": [
+          {
+            "name": "id_music",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the music to remove from favorites.",
+            "schema": {
+              "type": "integer",
+              "example": 1
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Music removed from favorites.",
@@ -422,6 +416,46 @@
                     "message": {
                       "type": "string",
                       "example": "Success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Music not found in favorites.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "music with id {id_music} is not found in your favorite"
                     }
                   }
                 }
