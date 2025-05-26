@@ -25,7 +25,7 @@ Repository ini untuk test challenge **Backend Engineer Intern DOT Indonesia**.
 - User melihat list musik.
 - User menambahkan musik favorit.
 - User melihat list musik favoritnya.
-- User menghapus musik favorit yang sudah ada.
+- User menghapus musik yang sudah difavoritkan.
 
 ---
 
