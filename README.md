@@ -6,14 +6,20 @@ Repository ini untuk test challenge **Backend Engineer Intern DOT Indonesia**.
 
 ---
 
-**Flow**
-
-![flow](https://i.pinimg.com/736x/c8/1d/4b/c81d4b034203100c3e9d13c8ca3d4d80.jpg)
-
 **ERD Schema**
 (user_music_favorite adalah tabel otomatis by gorm)
 
 ![erd](dot.png)
+
+**Layering pattern**
+
+![flow](https://i.pinimg.com/736x/c8/1d/4b/c81d4b034203100c3e9d13c8ca3d4d80.jpg)
+
+Modular → mudah dibaca & di-maintain
+
+Testable → Bisa test service tanpa nyentuh database (mock test).
+
+Separation of Concerns → tiap layer fokus ke tugasnya
 
 [Lihat Flow Chart](https://miro.com/app/board/uXjVIx8lumg=/?moveToWidget=3458764629378649791&cot=14)
 
