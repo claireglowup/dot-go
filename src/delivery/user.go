@@ -27,8 +27,8 @@ func (d *delivery) addUserMusicFavorite(c echo.Context) error {
 
 	err = d.service.AddMusicFavoriteUser(ctx, auth, favoriteMusic.ID)
 	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return helper.WriteResponse(c, http.StatusNotFound, fmt.Sprintf("music with id %d is not found", favoriteMusic.ID), nil)
+		if err == gorm.ErrDuplicatedKey {
+			return helper.WriteResponse(c, http.StatusBadRequest, fmt.Sprintf("music with id %d is already favorited", favoriteMusic.ID), nil)
 		}
 		return helper.WriteResponse(c, http.StatusInternalServerError, err.Error(), nil)
 

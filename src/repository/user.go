@@ -49,7 +49,7 @@ func (r *repository) AddMusicFavoriteUser(ctx context.Context, idUser uint, idMu
 		}
 
 		if len(existing) > 0 {
-			return gorm.ErrRecordNotFound
+			return gorm.ErrDuplicatedKey
 		}
 
 		if err := tx.First(&music, idMusic).Error; err != nil {
