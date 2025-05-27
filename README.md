@@ -6,6 +6,10 @@ Repository ini untuk test challenge **Backend Engineer Intern DOT Indonesia**.
 
 ---
 
+**APP**
+
+![app](https://i.pinimg.com/736x/77/a6/1a/77a61a0041a774d6754a0d8a1251bc1f.jpg)
+
 **ERD Schema**
 (user_music_favorite adalah tabel otomatis by gorm)
 
