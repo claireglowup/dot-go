@@ -34,7 +34,7 @@ func (d *delivery) addUserMusicFavorite(c echo.Context) error {
 
 	}
 
-	return helper.WriteResponse(c, http.StatusOK, "Success", nil)
+	return helper.WriteResponse(c, http.StatusCreated, "Success", nil)
 
 }
 
