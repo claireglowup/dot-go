@@ -19,6 +19,8 @@ Repository ini untuk test challenge **Backend Engineer Intern DOT Indonesia**.
 
 [Lihat API Docs](https://app.swaggerhub.com/apis/CLAIREGLOWUP/music-api-dot/1.0.0#/User/delete_user_favorite)
 
+[Download Postman API end to end test](https://drive.google.com/file/d/1VH0KaY-w8ziC7hXLxyKGKTB3wgohrvwi/view?usp=sharing)
+
 ## **Fitur**
 
 - Authentication menggunakan JWT.
